@@ -120,7 +120,8 @@ class GeneratedAdaptersTest {
     val foo: String,
     val bar: String = "",
     val nullableBar: String? = null,
-    val bazList: List<String> = emptyList())
+    val bazList: List<String> = emptyList()
+  )
 
   @Test
   fun nullableArray() {
@@ -175,8 +176,8 @@ class GeneratedAdaptersTest {
 
   @JsonClass(generateAdapter = true)
   data class NullabeTypes(
-      val foo: String,
-      val nullableString: String?
+    val foo: String,
+    val nullableString: String?
   )
 
   @Test
@@ -199,12 +200,12 @@ class GeneratedAdaptersTest {
 
   @JsonClass(generateAdapter = true)
   data class SpecialCollections(
-      val mutableList: MutableList<String>,
-      val mutableSet: MutableSet<String>,
-      val mutableMap: MutableMap<String, String>,
-      val immutableList: List<String>,
-      val immutableSet: Set<String>,
-      val immutableMap: Map<String, String>
+    val mutableList: MutableList<String>,
+    val mutableSet: MutableSet<String>,
+    val mutableMap: MutableMap<String, String>,
+    val immutableList: List<String>,
+    val immutableSet: Set<String>,
+    val immutableMap: Map<String, String>
   )
 
   @Test
@@ -233,18 +234,18 @@ class GeneratedAdaptersTest {
 
   @JsonClass(generateAdapter = true)
   data class MutableProperties(
-      val immutableProperty: String,
-      var mutableProperty: String,
-      val immutableMutableList: MutableList<String>,
-      val immutableImmutableList: List<String>,
-      var mutableMutableList: MutableList<String>,
-      var mutableImmutableList: List<String>,
-      val nullableImmutableProperty: String?,
-      var nullableMutableProperty: String?,
-      val nullableImmutableMutableList: MutableList<String>?,
-      val nullableImmutableImmutableList: List<String>?,
-      var nullableMutableMutableList: MutableList<String>?,
-      var nullableMutableImmutableList: List<String>
+    val immutableProperty: String,
+    var mutableProperty: String,
+    val immutableMutableList: MutableList<String>,
+    val immutableImmutableList: List<String>,
+    var mutableMutableList: MutableList<String>,
+    var mutableImmutableList: List<String>,
+    val nullableImmutableProperty: String?,
+    var nullableMutableProperty: String?,
+    val nullableImmutableMutableList: MutableList<String>?,
+    val nullableImmutableImmutableList: List<String>?,
+    var nullableMutableMutableList: MutableList<String>?,
+    var nullableMutableImmutableList: List<String>
   )
 
   @Test
@@ -397,7 +398,7 @@ class GeneratedAdaptersTest {
     try {
       jsonAdapter.fromJson("""{"a":4}""")
       fail()
-    } catch(expected: JsonDataException) {
+    } catch (expected: JsonDataException) {
       assertThat(expected).hasMessage("Required property 'b' missing at \$")
     }
   }
@@ -654,7 +655,8 @@ class GeneratedAdaptersTest {
     var v16: Int, var v17: Int, var v18: Int, var v19: Int, var v20: Int,
     var v21: Int, var v22: Int, var v23: Int, var v24: Int, var v25: Int,
     var v26: Int, var v27: Int, var v28: Int, var v29: Int, var v30: Int,
-    var v31: Int, var v32: Int)
+    var v31: Int, var v32: Int
+  )
 
   @Test fun manyProperties33() {
     val moshi = Moshi.Builder().build()
@@ -696,7 +698,8 @@ class GeneratedAdaptersTest {
     var v16: Int, var v17: Int, var v18: Int, var v19: Int, var v20: Int,
     var v21: Int, var v22: Int, var v23: Int, var v24: Int, var v25: Int,
     var v26: Int, var v27: Int, var v28: Int, var v29: Int, var v30: Int,
-    var v31: Int, var v32: Int, var v33: Int)
+    var v31: Int, var v32: Int, var v33: Int
+  )
 
   @Test fun unsettablePropertyIgnored() {
     val moshi = Moshi.Builder().build()
@@ -732,7 +735,7 @@ class GeneratedAdaptersTest {
 
   @JsonClass(generateAdapter = true)
   class GetterOnly(var a: Int, var b: Int) {
-    val total : Int
+    val total: Int
       get() = a + b
   }
 
@@ -758,7 +761,7 @@ class GeneratedAdaptersTest {
 
   @JsonClass(generateAdapter = true)
   class GetterAndSetter(var a: Int, var b: Int) {
-    var total : Int
+    var total: Int
       get() = a + b
       set(value) {
         b = value - a
@@ -813,7 +816,7 @@ class GeneratedAdaptersTest {
     try {
       jsonAdapter.fromJson("""{"a":4,"a":4}""")
       fail()
-    } catch(expected: JsonDataException) {
+    } catch (expected: JsonDataException) {
       assertThat(expected).hasMessage("Multiple values for a at $.a")
     }
   }
@@ -869,7 +872,8 @@ class GeneratedAdaptersTest {
     val encoded = MultiplePropertiesShareAdapter("Android", "Banana")
     assertThat(jsonAdapter.toJson(encoded)).isEqualTo("""{"a":"ANDROID","b":"BANANA"}""")
 
-    val delegateAdapters = jsonAdapter::class.memberProperties.filter {
+    val delegateAdapters = GeneratedAdaptersTest_MultiplePropertiesShareAdapterJsonAdapter::class
+        .memberProperties.filter {
       it.returnType.classifier == JsonAdapter::class
     }
     assertThat(delegateAdapters).hasSize(1)
@@ -898,7 +902,7 @@ class GeneratedAdaptersTest {
   class CustomToJsonOnly(var a: Int, var b: Int)
 
   class CustomToJsonOnlyAdapter {
-    @ToJson fun toJson(v: CustomToJsonOnly) : List<Int> {
+    @ToJson fun toJson(v: CustomToJsonOnly): List<Int> {
       return listOf(v.a, v.b)
     }
   }
@@ -920,7 +924,7 @@ class GeneratedAdaptersTest {
   class CustomFromJsonOnly(var a: Int, var b: Int)
 
   class CustomFromJsonOnlyAdapter {
-    @FromJson fun fromJson(v: List<Int>) : CustomFromJsonOnly {
+    @FromJson fun fromJson(v: List<Int>): CustomFromJsonOnly {
       return CustomFromJsonOnly(v[0], v[1])
     }
   }
@@ -972,7 +976,7 @@ class GeneratedAdaptersTest {
       jsonWriter.nullValue()
     }
 
-    @FromJson fun fromJson(jsonReader: JsonReader) : Nothing? {
+    @FromJson fun fromJson(jsonReader: JsonReader): Nothing? {
       jsonReader.skipValue()
       return null
     }
@@ -1038,10 +1042,11 @@ class GeneratedAdaptersTest {
   annotation class Uppercase(val inFrench: Boolean, val onSundays: Boolean = false)
 
   class UppercaseJsonAdapter {
-    @ToJson fun toJson(@Uppercase(inFrench = true) s: String) : String {
+    @ToJson fun toJson(@Uppercase(inFrench = true) s: String): String {
       return s.toUpperCase(Locale.US)
     }
-    @FromJson @Uppercase(inFrench = true) fun fromJson(s: String) : String {
+
+    @FromJson @Uppercase(inFrench = true) fun fromJson(s: String): String {
       return s.toLowerCase(Locale.US)
     }
   }
@@ -1053,7 +1058,7 @@ class GeneratedAdaptersTest {
     val moshi = Moshi.Builder()
         .add(JsonAdapter.Factory { type, annotations, moshi ->
           if (Boolean::class.javaObjectType == type) {
-            return@Factory object:JsonAdapter<Boolean?>() {
+            return@Factory object : JsonAdapter<Boolean?>() {
               override fun fromJson(reader: JsonReader): Boolean? {
                 if (reader.peek() != JsonReader.Token.BOOLEAN) {
                   reader.skipValue()
@@ -1087,11 +1092,11 @@ class GeneratedAdaptersTest {
 // Has to be outside to avoid Types seeing an owning class
 @JsonClass(generateAdapter = true)
 data class NullableTypeParams<T>(
-    val nullableList: List<String?>,
-    val nullableSet: Set<String?>,
-    val nullableMap: Map<String, String?>,
-    val nullableT: T?,
-    val nonNullT: T
+  val nullableList: List<String?>,
+  val nullableSet: Set<String?>,
+  val nullableMap: Map<String, String?>,
+  val nullableT: T?,
+  val nonNullT: T
 )
 
 typealias TypeAliasName = String
@@ -1103,25 +1108,25 @@ typealias GenericTypeAlias = List<String>
  */
 @JsonClass(generateAdapter = true)
 data class SmokeTestType(
-    @Json(name = "first_name") val firstName: String,
-    @Json(name = "last_name") val lastName: String,
-    val age: Int,
-    val nationalities: List<String> = emptyList(),
-    val weight: Float,
-    val tattoos: Boolean = false,
-    val race: String?,
-    val hasChildren: Boolean = false,
-    val favoriteFood: String? = null,
-    val favoriteDrink: String? = "Water",
-    val wildcardOut: List<out String> = emptyList(),
-    val wildcardIn: Array<in String>,
-    val any: List<*>,
-    val anyTwo: List<Any>,
-    val anyOut: List<out Any>,
-    val favoriteThreeNumbers: IntArray,
-    val favoriteArrayValues: Array<String>,
-    val favoriteNullableArrayValues: Array<String?>,
-    val nullableSetListMapArrayNullableIntWithDefault: Set<List<Map<String, Array<IntArray?>>>>? = null,
-    val aliasedName: TypeAliasName = "Woah",
-    val genericAlias: GenericTypeAlias = listOf("Woah")
+  @Json(name = "first_name") val firstName: String,
+  @Json(name = "last_name") val lastName: String,
+  val age: Int,
+  val nationalities: List<String> = emptyList(),
+  val weight: Float,
+  val tattoos: Boolean = false,
+  val race: String?,
+  val hasChildren: Boolean = false,
+  val favoriteFood: String? = null,
+  val favoriteDrink: String? = "Water",
+  val wildcardOut: List<out String> = emptyList(),
+  val wildcardIn: Array<in String>,
+  val any: List<*>,
+  val anyTwo: List<Any>,
+  val anyOut: List<out Any>,
+  val favoriteThreeNumbers: IntArray,
+  val favoriteArrayValues: Array<String>,
+  val favoriteNullableArrayValues: Array<String?>,
+  val nullableSetListMapArrayNullableIntWithDefault: Set<List<Map<String, Array<IntArray?>>>>? = null,
+  val aliasedName: TypeAliasName = "Woah",
+  val genericAlias: GenericTypeAlias = listOf("Woah")
 )
