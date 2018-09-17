@@ -19,6 +19,9 @@ import com.squareup.moshi.JsonQualifier;
 import com.squareup.moshi.Types;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.InvocationTargetException;
@@ -51,6 +54,22 @@ public final class Util {
 
   public static Set<? extends Annotation> jsonAnnotations(AnnotatedElement annotatedElement) {
     return jsonAnnotations(annotatedElement.getAnnotations());
+  }
+
+  public static Set<? extends Annotation> fieldAndTypeJsonAnnotations(Field field) {
+    Annotation[] fieldAnnotations = field.getAnnotations();
+    Annotation[] typeAnnotations = field.getAnnotatedType().getAnnotations();
+    Annotation[] allAnnotations = new Annotation[fieldAnnotations.length + typeAnnotations.length];
+
+    int i = 0;
+    for (int length = fieldAnnotations.length; i < length; i++) {
+      allAnnotations[i] = fieldAnnotations[i];
+    }
+    for (int length = typeAnnotations.length; i < length; i++) {
+      allAnnotations[i] = typeAnnotations[i];
+    }
+
+    return jsonAnnotations(allAnnotations);
   }
 
   public static Set<? extends Annotation> jsonAnnotations(Annotation[] annotations) {
