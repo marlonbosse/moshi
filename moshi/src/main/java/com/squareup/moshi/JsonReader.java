@@ -200,6 +200,15 @@ public abstract class JsonReader implements Closeable {
     // Package-private to control subclasses.
   }
 
+  JsonReader(JsonReader copyFrom) {
+    this.stackSize = copyFrom.stackSize;
+    this.scopes = copyFrom.scopes.clone();
+    this.pathNames = copyFrom.pathNames.clone();
+    this.pathIndices = copyFrom.pathIndices.clone();
+    this.lenient = copyFrom.lenient;
+    this.failOnUnknown = copyFrom.failOnUnknown;
+  }
+
   final void pushScope(int newTop) {
     if (stackSize == scopes.length) {
       if (stackSize == 256) {
@@ -460,6 +469,32 @@ public abstract class JsonReader implements Closeable {
             "Expected a value but was " + peek() + " at path " + getPath());
     }
   }
+
+  /**
+   * Returns a new {@code JsonReader} that can read data from this {@code JsonReader} without
+   * consuming it. The returned reader becomes invalid once this one is next read or closed.
+   *
+   * For example, we can use `peek()` to lookahead and read the same data multiple times.
+   *
+   * <pre> {@code
+   *
+   *   Buffer buffer = new Buffer();
+   *   buffer.writeUtf8("[123, 456, 789]")
+   *
+   *   JsonReader jsonReader = JsonReader.of(buffer);
+   *   jsonReader.beginArray();
+   *   jsonReader.nextInt(); // Returns 123, reader contains 456, 789 and ].
+   *
+   *   JsonReader peek = reader.peekReader();
+   *   peek.nextInt() // Returns 456.
+   *   peek.nextInt() // Returns 789.
+   *   peek.endArray()
+   *
+   *   jsonReader.nextInt() // Returns 456, reader contains 789 and ].
+   * }</pre>
+   */
+  // TODO(jwilson): make this public once it's supported in JsonUtf8Reader.
+  abstract JsonReader peekJson();
 
   /**
    * Returns a <a href="http://goessner.net/articles/JsonPath/">JsonPath</a> to
